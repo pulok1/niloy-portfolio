@@ -30,8 +30,8 @@ const cell = (i: number, j: number, row: "a" | "b"): [number, number] =>
 const fmt = (n: number) => Math.round(n * 10) / 10;
 const ring = (pts: [number, number][]) => `M${pts.map(([x, y]) => `${fmt(x)} ${fmt(y)}`).join("L")}Z`;
 
-// Two fused rings with substituents (lower right, clear of the header) and a single ring (lower left).
-const rings = [cell(17, 5, "a"), cell(18, 5, "a"), cell(3, 6, "b")];
+// Two fused rings with substituents (right of the avatar on wide screens) and a single ring (lower left).
+const rings = [cell(22, 3, "a"), cell(23, 3, "a"), cell(3, 6, "b")];
 const ringPaths = rings.map(([x, y]) => ring(hexPoints(x, y)));
 const [r1, r2] = [hexPoints(...rings[0]!), hexPoints(...rings[1]!)];
 const bonds: [number, number, number, number][] = [

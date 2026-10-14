@@ -69,7 +69,7 @@ export const profile = {
     {
       degree: "MSc in Chemistry",
       institution: "University of Chittagong",
-      years: todo("{{MSC_YEARS}}", "MSc years"),
+      years: todo("{{MSC_YEARS}}", "MSc years", "2025 – 2026"),
       result: todo("{{MSC_RESULT}}", "MSc result"),
       details: [
         { label: "Thesis", value: todo("{{MSC_THESIS_TITLE}}", "MSc thesis title") },

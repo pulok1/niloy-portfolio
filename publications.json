@@ -1,0 +1,68 @@
+{
+  "person": {
+    "name": "Niloy Bhattacharjee",
+    "orcid": "0009-0007-3631-8650",
+    "scopusAuthorId": "59321448600",
+    "affiliation": "Department of Chemistry, Faculty of Science, University of Chittagong, Chittagong-4331, Bangladesh"
+  },
+  "publications": [
+    {
+      "id": "slct-2025-cox2",
+      "featured": true,
+      "year": 2025,
+      "title": "Exploring Potential COX-2 Inhibitors of Ibuprofen Derivatives: Integrating DFT, Molecular Docking, Molecular Dynamics Simulations, ADMET with FEL and MMPBSA Analyses",
+      "journal": "ChemistrySelect",
+      "publisher": "Wiley-VCH",
+      "volume": "10",
+      "issue": "5",
+      "doi": "10.1002/slct.202502470",
+      "authorPosition": "First author",
+      "authors": ["Niloy Bhattacharjee", "Jubaer Ahmod Shakil", "Shassatha Paul Saikat", "et al. — VERIFY full list on the DOI page"],
+      "theme": "Drug design",
+      "summary": "Designed 14 ibuprofen derivatives by replacing the carboxylic acid group (linked to ibuprofen's side effects) with acyl and amide groups. DFT, docking, MD simulations and ADMET screening showed most derivatives bind COX-2 more strongly than ibuprofen, with compound I7 standing out.",
+      "highlights": [
+        "Ibuprofen: -7.3 kcal/mol vs best derivatives I7: -9.0 and I9: -8.8 kcal/mol",
+        "I7–COX-2 complex binding free energy (MMPBSA): -78.02 kJ/mol",
+        "Favourable predicted drug-likeness and lower toxicity"
+      ],
+      "methods": ["DFT", "Molecular docking", "Molecular dynamics", "MMPBSA", "Free energy landscape", "ADMET"]
+    },
+    {
+      "id": "ma-2026-perovskite",
+      "featured": true,
+      "year": 2026,
+      "title": "Toward efficient and sustainable perovskite solar cells: a combined first-principles and device simulation study of K2LiGa(Cl/Br)6 for photovoltaic performance optimization",
+      "titleHtml": "Toward efficient and sustainable perovskite solar cells: a combined first-principles and device simulation study of K<sub>2</sub>LiGa(Cl/Br)<sub>6</sub> for photovoltaic performance optimization",
+      "journal": "Materials Advances",
+      "publisher": "Royal Society of Chemistry",
+      "volume": "7",
+      "issue": "14",
+      "pages": "7084-7105",
+      "doi": "10.1039/d6ma00207b",
+      "authorPosition": "Co-author (3rd of 8)",
+      "authors": ["Jubaer Ahmod Shakil", "Shassatha Paul Saikat", "Niloy Bhattacharjee", "Md. Atikur Rahman", "Shukanta Bhowmik", "Mayeen Uddin Khandaker", "Jamal Uddin", "Faisal Islam Chowdhury"],
+      "theme": "Materials for clean energy",
+      "summary": "Evaluated two lead-free double halide perovskites as solar-cell absorbers by pairing first-principles (DFT) calculations with SCAPS-1D device simulation to optimise photovoltaic performance.",
+      "highlights": ["Lead-free, more sustainable absorber materials", "International collaboration (Bangladesh, Malaysia, USA)"],
+      "methods": ["DFT", "SCAPS-1D device simulation"]
+    },
+    {
+      "id": "nxmate-2026-mannopyranoside",
+      "featured": false,
+      "year": 2026,
+      "title": "Synthesis, antimicrobial evaluation, and integrated DFT, molecular docking, and dynamics simulation studies of the novel pentanoylated methyl α-D-mannopyranoside derivatives",
+      "journal": "Next Materials",
+      "publisher": "Elsevier",
+      "volume": "13",
+      "articleNumber": "103749",
+      "doi": "10.1016/j.nxmate.2026.103749",
+      "openAccess": true,
+      "authorPosition": "Co-author (2nd of 5)",
+      "authors": ["Sarkar M.A. Kawsar", "Niloy Bhattacharjee", "Anis Ul Islam", "Yuki Fujii", "Yasuhiro Ozeki"],
+      "theme": "Antimicrobial agents",
+      "summary": "Synthesised new sugar-based (mannopyranoside) derivatives, tested them against bacterial and fungal pathogens, and used DFT, docking and dynamics simulations to explain their activity.",
+      "highlights": ["Wet-lab synthesis + computational study", "Funded by Ministry of Science and Technology, Government of Bangladesh", "Collaboration with researchers in Japan"],
+      "methods": ["Organic synthesis", "Antimicrobial assays", "DFT", "Molecular docking", "Molecular dynamics"]
+    }
+  ]
+}

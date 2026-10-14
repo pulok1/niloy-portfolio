@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { formatApa } from "@/lib/citation";
-import { doiUrl, isFirstAuthor, sourceLine, type Publication } from "@/lib/publication-helpers";
+import { dateLabel, doiUrl, isFirstAuthor, sourceLine, type Publication } from "@/lib/publication-helpers";
 import { AuthorList } from "./AuthorList";
 import { CopyCitationButton } from "./CopyCitationButton";
 import { ExternalLink, Unlock } from "./Icons";
@@ -16,6 +16,7 @@ export function PublicationEntry({ pub }: { pub: Publication }) {
       <div className={styles.body}>
         <div className={styles.tags}>
           <span className="chip chip-accent">{pub.theme}</span>
+          {pub.type !== "Journal article" && <span className="badge">{pub.type}</span>}
           <span className={isFirstAuthor(pub) ? "badge badge-accent" : "badge"}>{pub.authorPosition}</span>
           {pub.openAccess && (
             <span className="badge">
@@ -30,7 +31,8 @@ export function PublicationEntry({ pub }: { pub: Publication }) {
         </h3>
         <AuthorList pub={pub} className={styles.authors} />
         <p className={styles.source}>
-          <cite>{sourceLine(pub)}</cite> ({pub.year}) · {pub.publisher}
+          <cite>{sourceLine(pub)}</cite> · {dateLabel(pub)}
+          {pub.publisher && <> · {pub.publisher}</>}
         </p>
         <div className={styles.actions}>
           <a href={doiUrl(pub.doi)} className={styles.doi} target="_blank" rel="noopener">
@@ -39,6 +41,12 @@ export function PublicationEntry({ pub }: { pub: Publication }) {
             <span className="visually-hidden"> (opens in a new tab)</span>
           </a>
           <CopyCitationButton citation={formatApa(pub)} />
+          {pub.researchGateUrl && (
+            <a href={pub.researchGateUrl} className={styles.secondaryLink} target="_blank" rel="noopener">
+              ResearchGate
+              <span className="visually-hidden"> page for this publication (opens in a new tab)</span>
+            </a>
+          )}
         </div>
       </div>
     </article>

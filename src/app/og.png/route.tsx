@@ -1,5 +1,6 @@
 import { ImageResponse } from "next/og";
 import { profile } from "@/content/profile";
+import { researchAreas } from "@/content/research";
 import { publications } from "@/lib/publications";
 import { ogImage } from "@/lib/seo";
 
@@ -50,7 +51,7 @@ export function GET() {
           <div style={{ display: "flex", fontSize: 84, lineHeight: 1.05, marginTop: 20 }}>{profile.name}</div>
           <div style={{ display: "flex", fontSize: 34, lineHeight: 1.35, marginTop: 24, color: "#dfe7f2" }}>{profile.tagline}</div>
           <div style={{ display: "flex", fontSize: 21, marginTop: 36, color: "#b4c1d4", fontFamily: "sans-serif" }}>
-            {`${publications.length} publications · Drug design · Antimicrobials · Solar materials`}
+            {`${publications.length} publications · ${researchAreas.map((a) => a.title).join(" · ")}`}
           </div>
         </div>
       </div>

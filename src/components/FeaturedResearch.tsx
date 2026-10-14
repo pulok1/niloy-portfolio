@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { featuredOrder, featuredStats } from "@/content/research";
-import { doiUrl, getPublication, isFirstAuthor, type Publication } from "@/lib/publications";
+import { dateLabel, doiUrl, getPublication, isFirstAuthor, sourceLine, type Publication } from "@/lib/publications";
 import { ArrowRight, ExternalLink } from "./Icons";
 import { RichTitle } from "./RichTitle";
 import styles from "./FeaturedResearch.module.css";
@@ -21,7 +21,8 @@ function FeaturedCard({ pub, lead }: { pub: Publication; lead: boolean }) {
           </Link>
         </h3>
         <p className={styles.source}>
-          <cite>{pub.journal}</cite> · {pub.year} · {pub.publisher}
+          <cite>{sourceLine(pub)}</cite> · {dateLabel(pub)}
+          {pub.publisher && <> · {pub.publisher}</>}
         </p>
 
         <div className={styles.summary}>

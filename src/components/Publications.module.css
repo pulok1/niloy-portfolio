@@ -116,6 +116,14 @@
   overflow-wrap: anywhere;
 }
 
+.secondaryLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  font-size: 0.88rem;
+  font-weight: 550;
+}
+
 @media (min-width: 768px) {
   .entry { grid-template-columns: 72px minmax(0, 1fr); padding-block: 32px; }
   .year { padding-top: 2px; }

@@ -5,10 +5,11 @@ import { AuthorList } from "@/components/AuthorList";
 import { CopyCitationButton } from "@/components/CopyCitationButton";
 import { ArrowLeft, ExternalLink, Unlock } from "@/components/Icons";
 import { JsonLd } from "@/components/JsonLd";
+import { TodoBadge } from "@/components/Placeholder";
 import { RichTitle } from "@/components/RichTitle";
 import { featuredStats, researchAreas } from "@/content/research";
 import { formatApa } from "@/lib/citation";
-import { doiUrl, getPublication, isFirstAuthor, publications, sourceLine, themeSlug } from "@/lib/publications";
+import { dateLabel, doiUrl, getPublication, isFirstAuthor, isMethodNote, publications, sourceLine, themeSlug } from "@/lib/publications";
 import { ogImage } from "@/lib/seo";
 import { articleJsonLd } from "@/lib/structured-data";
 import styles from "./page.module.css";
@@ -39,7 +40,7 @@ export default async function ResearchPage({ params }: { params: Promise<Params>
   if (!pub) notFound();
 
   const stats = featuredStats[pub.id] ?? [];
-  const area = researchAreas.find((a) => a.theme === pub.theme);
+  const area = researchAreas.find((a) => a.themes.includes(pub.theme));
   const citation = formatApa(pub);
 
   return (
@@ -52,6 +53,7 @@ export default async function ResearchPage({ params }: { params: Promise<Params>
           </Link>
           <div className={styles.tags}>
             <span className={styles.theme}>{pub.theme}</span>
+            {pub.type !== "Journal article" && <span className={styles.badgeOnDark}>{pub.type}</span>}
             <span className={isFirstAuthor(pub) ? "badge badge-accent" : styles.badgeOnDark}>{pub.authorPosition}</span>
             {pub.openAccess && (
               <span className={styles.badgeOnDark}>
@@ -63,14 +65,21 @@ export default async function ResearchPage({ params }: { params: Promise<Params>
             <RichTitle pub={pub} />
           </h1>
           <p className={styles.source}>
-            <cite>{sourceLine(pub)}</cite> · {pub.year} · {pub.publisher}
+            <cite>{sourceLine(pub)}</cite> · {dateLabel(pub)}
+            {pub.publisher && <> · {pub.publisher}</>}
           </p>
           <div className={styles.actions}>
             <a href={doiUrl(pub.doi)} className="btn btn-primary" target="_blank" rel="noopener">
-              Read paper <ExternalLink />
+              Read {pub.type === "Book chapter" ? "chapter" : "paper"} <ExternalLink />
               <span className="visually-hidden"> (opens in a new tab)</span>
             </a>
             <CopyCitationButton citation={citation} className={`btn ${styles.btnOnDark}`} />
+            {pub.researchGateUrl && (
+              <a href={pub.researchGateUrl} className={`btn ${styles.btnOnDark}`} target="_blank" rel="noopener">
+                ResearchGate <ExternalLink />
+                <span className="visually-hidden"> (opens in a new tab)</span>
+              </a>
+            )}
           </div>
         </div>
       </header>
@@ -113,7 +122,7 @@ export default async function ResearchPage({ params }: { params: Promise<Params>
 
           <section aria-labelledby="cite">
             <h2 id="cite" className={styles.h2}>
-              Cite this paper (APA)
+              Cite this work (APA)
             </h2>
             <p className={styles.citation}>{citation}</p>
           </section>
@@ -131,11 +140,17 @@ export default async function ResearchPage({ params }: { params: Promise<Params>
               Methods
             </h2>
             <ul className="chip-list">
-              {pub.methods.map((m) => (
-                <li key={m} className="chip">
-                  {m}
-                </li>
-              ))}
+              {pub.methods.map((m) =>
+                isMethodNote(m) ? (
+                  <li key={m}>
+                    <TodoBadge label={m.replace(/\s*[—-]\s*VERIFY.*$/i, "") + ": verify"} />
+                  </li>
+                ) : (
+                  <li key={m} className="chip">
+                    {m}
+                  </li>
+                ),
+              )}
             </ul>
           </section>
           <section className={`card ${styles.panel}`} aria-labelledby="details">
@@ -143,10 +158,16 @@ export default async function ResearchPage({ params }: { params: Promise<Params>
               Details
             </h2>
             <dl className={styles.meta}>
-              <dt>Journal</dt>
+              <dt>{pub.type === "Book chapter" ? "Book" : "Journal"}</dt>
               <dd>
-                <i>{pub.journal}</i>
+                <i>{pub.journal ?? pub.bookTitle}</i>
               </dd>
+              {pub.publisher && (
+                <>
+                  <dt>Publisher</dt>
+                  <dd>{pub.publisher}</dd>
+                </>
+              )}
               {pub.volume && (
                 <>
                   <dt>Volume</dt>
@@ -171,7 +192,7 @@ export default async function ResearchPage({ params }: { params: Promise<Params>
             </dl>
           </section>
           {area && (
-            <Link href={`/?theme=${themeSlug(pub.theme)}#publications`} className={styles.related}>
+            <Link href={`/?theme=${area.themes.map(themeSlug).join(",")}#publications`} className={styles.related}>
               More on {area.title.toLowerCase()} →
             </Link>
           )}

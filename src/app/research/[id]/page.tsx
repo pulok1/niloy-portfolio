@@ -1,0 +1,180 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { AuthorList } from "@/components/AuthorList";
+import { CopyCitationButton } from "@/components/CopyCitationButton";
+import { ArrowLeft, ExternalLink, Unlock } from "@/components/Icons";
+import { JsonLd } from "@/components/JsonLd";
+import { RichTitle } from "@/components/RichTitle";
+import { featuredStats, researchAreas } from "@/content/research";
+import { formatApa } from "@/lib/citation";
+import { doiUrl, getPublication, isFirstAuthor, publications, sourceLine, themeSlug } from "@/lib/publications";
+import { articleJsonLd } from "@/lib/structured-data";
+import styles from "./page.module.css";
+
+type Params = { id: string };
+
+export const dynamicParams = false;
+
+export function generateStaticParams(): Params[] {
+  return publications.map((p) => ({ id: p.id }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
+  const pub = getPublication((await params).id);
+  if (!pub) return {};
+  return {
+    title: pub.title,
+    description: pub.summary,
+    alternates: { canonical: `./` },
+    openGraph: { type: "article", title: pub.title, description: pub.summary, url: "./" },
+  };
+}
+
+export default async function ResearchPage({ params }: { params: Promise<Params> }) {
+  const { id } = await params;
+  const pub = getPublication(id);
+  if (!pub) notFound();
+
+  const stats = featuredStats[pub.id] ?? [];
+  const area = researchAreas.find((a) => a.theme === pub.theme);
+  const citation = formatApa(pub);
+
+  return (
+    <article className={styles.page}>
+      <JsonLd data={articleJsonLd(pub, `/research/${pub.id}/`)} />
+      <header className={styles.header}>
+        <div className="container">
+          <Link href="/#publications" className={styles.back}>
+            <ArrowLeft width={16} height={16} /> All publications
+          </Link>
+          <div className={styles.tags}>
+            <span className={styles.theme}>{pub.theme}</span>
+            <span className={isFirstAuthor(pub) ? "badge badge-accent" : styles.badgeOnDark}>{pub.authorPosition}</span>
+            {pub.openAccess && (
+              <span className={styles.badgeOnDark}>
+                <Unlock width={13} height={13} /> Open access
+              </span>
+            )}
+          </div>
+          <h1 className={styles.title}>
+            <RichTitle pub={pub} />
+          </h1>
+          <p className={styles.source}>
+            <cite>{sourceLine(pub)}</cite> · {pub.year} · {pub.publisher}
+          </p>
+          <div className={styles.actions}>
+            <a href={doiUrl(pub.doi)} className="btn btn-primary" target="_blank" rel="noopener">
+              Read paper <ExternalLink />
+              <span className="visually-hidden"> (opens in a new tab)</span>
+            </a>
+            <CopyCitationButton citation={citation} className={`btn ${styles.btnOnDark}`} />
+          </div>
+        </div>
+      </header>
+
+      <div className={`container ${styles.body}`}>
+        <div className={styles.main}>
+          <section aria-labelledby="summary">
+            <h2 id="summary" className={styles.h2}>
+              In plain language
+            </h2>
+            <p className={styles.summary}>{pub.summary}</p>
+          </section>
+
+          {stats.length > 0 && (
+            <dl className={styles.stats}>
+              {stats.map((s) => (
+                <div key={s.label} className={styles.stat}>
+                  <dt>{s.label}</dt>
+                  <dd>
+                    {s.value}
+                    {s.unit && <span> {s.unit}</span>}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          )}
+
+          {pub.highlights.length > 0 && (
+            <section aria-labelledby="highlights">
+              <h2 id="highlights" className={styles.h2}>
+                Highlights
+              </h2>
+              <ul className={styles.highlights}>
+                {pub.highlights.map((h) => (
+                  <li key={h}>{h}</li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          <section aria-labelledby="cite">
+            <h2 id="cite" className={styles.h2}>
+              Cite this paper (APA)
+            </h2>
+            <p className={styles.citation}>{citation}</p>
+          </section>
+        </div>
+
+        <aside className={styles.side}>
+          <section className={`card ${styles.panel}`} aria-labelledby="authors">
+            <h2 id="authors" className={styles.h3}>
+              Authors
+            </h2>
+            <AuthorList pub={pub} className={styles.authors} />
+          </section>
+          <section className={`card ${styles.panel}`} aria-labelledby="paper-methods">
+            <h2 id="paper-methods" className={styles.h3}>
+              Methods
+            </h2>
+            <ul className="chip-list">
+              {pub.methods.map((m) => (
+                <li key={m} className="chip">
+                  {m}
+                </li>
+              ))}
+            </ul>
+          </section>
+          <section className={`card ${styles.panel}`} aria-labelledby="details">
+            <h2 id="details" className={styles.h3}>
+              Details
+            </h2>
+            <dl className={styles.meta}>
+              <dt>Journal</dt>
+              <dd>
+                <i>{pub.journal}</i>
+              </dd>
+              {pub.volume && (
+                <>
+                  <dt>Volume</dt>
+                  <dd>
+                    {pub.volume}
+                    {pub.issue && ` (issue ${pub.issue})`}
+                  </dd>
+                </>
+              )}
+              {(pub.pages || pub.articleNumber) && (
+                <>
+                  <dt>{pub.pages ? "Pages" : "Article"}</dt>
+                  <dd>{pub.pages?.replace("-", "–") ?? pub.articleNumber}</dd>
+                </>
+              )}
+              <dt>DOI</dt>
+              <dd>
+                <a href={doiUrl(pub.doi)} target="_blank" rel="noopener" className={styles.doi}>
+                  {pub.doi}
+                </a>
+              </dd>
+            </dl>
+          </section>
+          {area && (
+            <Link href={`/?theme=${themeSlug(pub.theme)}#publications`} className={styles.related}>
+              More on {area.title.toLowerCase()} →
+            </Link>
+          )}
+        </aside>
+      </div>
+    </article>
+  );
+}

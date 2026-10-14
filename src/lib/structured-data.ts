@@ -2,6 +2,7 @@ import { profile } from "@/content/profile";
 import { methodGroups } from "@/content/research";
 import { isFilled } from "./placeholder";
 import { doiUrl, isAuthorNote, type Publication } from "./publications";
+import { MONTHS } from "./schema";
 import { absoluteUrl } from "./site";
 
 const university = {
@@ -27,9 +28,10 @@ export function personJsonLd() {
     jobTitle: profile.role,
     affiliation: { ...university, department: { "@type": "Organization", name: "Department of Chemistry" } },
     alumniOf: university,
+    ...(profile.lab ? { memberOf: { "@type": "Organization", name: profile.lab } } : {}),
     identifier: { "@type": "PropertyValue", propertyID: "ORCID", value: profile.orcid.id },
     sameAs,
-    knowsAbout: methodGroups.flatMap((g) => g.items.filter((i) => i.match).map((i) => i.label)),
+    knowsAbout: methodGroups.flatMap((g) => g.items.filter((i) => i.match.length > 0).map((i) => i.label)),
     ...(isFilled(profile.email) ? { email: `mailto:${profile.email.value}` } : {}),
     // siteUrl already includes any base path, so the raw public/ path is used here.
     ...(isFilled(profile.photo) ? { image: absoluteUrl(profile.photo.value) } : {}),
@@ -40,21 +42,21 @@ export function personJsonLd() {
 export function articleJsonLd(pub: Publication, path: string) {
   return {
     "@context": "https://schema.org",
-    "@type": "ScholarlyArticle",
+    "@type": pub.type === "Book chapter" ? "Chapter" : "ScholarlyArticle",
     headline: pub.title,
     name: pub.title,
-    datePublished: String(pub.year),
+    datePublished: pub.month ? `${pub.year}-${String(MONTHS.indexOf(pub.month) + 1).padStart(2, "0")}` : String(pub.year),
     url: absoluteUrl(path),
     sameAs: doiUrl(pub.doi),
     identifier: { "@type": "PropertyValue", propertyID: "DOI", value: pub.doi },
     author: pub.authors.filter((a) => !isAuthorNote(a)).map((name) => ({ "@type": "Person", name })),
     isPartOf: {
-      "@type": "Periodical",
-      name: pub.journal,
-      publisher: { "@type": "Organization", name: pub.publisher },
+      "@type": pub.type === "Book chapter" ? "Book" : "Periodical",
+      name: pub.journal ?? pub.bookTitle,
+      ...(pub.publisher ? { publisher: { "@type": "Organization", name: pub.publisher } } : {}),
     },
     abstract: pub.summary,
-    keywords: pub.methods.join(", "),
+    keywords: pub.methods.filter((m) => !/VERIFY|TODO/.test(m)).join(", "),
     ...(pub.openAccess ? { isAccessibleForFree: true } : {}),
   };
 }

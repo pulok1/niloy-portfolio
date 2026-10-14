@@ -47,11 +47,33 @@ export function doiUrl(doi: string): string {
   return `https://doi.org/${doi}`;
 }
 
-/** "ChemistrySelect 10(5)", "Materials Advances 7(14), 7084–7105", "Next Materials 13, 103749" */
+/** "pp. 102–122" style range with an en dash. */
+const range = (pages: string) => pages.replace("-", "–");
+
+/**
+ * Short source line:
+ *   "ChemistrySelect 10(30)", "Materials Advances 7(14), 7084–7105", "Next Materials 13, 103749",
+ *   "In: Chemistry and Biochemistry: Research Progress Vol. 8, pp. 102–122"
+ */
 export function sourceLine(p: Publication): string {
-  let s = p.journal;
+  if (p.type === "Book chapter") return `In: ${p.bookTitle ?? ""}${p.pages ? `, pp. ${range(p.pages)}` : ""}`;
+  let s = p.journal ?? "";
   if (p.volume) s += ` ${p.volume}${p.issue ? `(${p.issue})` : ""}`;
-  const loc = p.pages ? p.pages.replace("-", "–") : p.articleNumber;
+  const loc = p.pages ? range(p.pages) : p.articleNumber;
   if (loc) s += `, ${loc}`;
   return s;
+}
+
+/** "Aug 2025" or "2025". */
+export function dateLabel(p: Publication): string {
+  return p.month ? `${p.month} ${p.year}` : String(p.year);
+}
+
+/** Method entries still awaiting confirmation, e.g. "In silico analysis — VERIFY". */
+export function isMethodNote(method: string): boolean {
+  return /\bVERIFY\b|\bTODO\b/.test(method);
+}
+
+export function confirmedMethods(p: Publication): string[] {
+  return p.methods.filter((m) => !isMethodNote(m));
 }

@@ -11,6 +11,8 @@ const nextConfig: NextConfig = {
   trailingSlash: true,
   images: { unoptimized: true },
   reactStrictMode: true,
+  // Hide the floating "N" dev-tools button shown by `next dev`.
+  devIndicators: false,
 };
 
 export default nextConfig;

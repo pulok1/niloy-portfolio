@@ -1,0 +1,26 @@
+.footer {
+  background: var(--navy-950);
+  color: var(--hero-muted);
+  padding-block: 40px;
+  font-size: 0.9rem;
+}
+
+.inner {
+  display: grid;
+  gap: 6px;
+}
+
+.name {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1.15rem;
+  color: var(--hero-ink);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+.links a { color: var(--hero-accent); }
+.links a:hover { color: #fff; }

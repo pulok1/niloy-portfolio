@@ -1,0 +1,28 @@
+.section {
+  padding-block: 64px;
+}
+.alt {
+  background: var(--bg-alt);
+  border-block: 1px solid var(--border);
+}
+
+.header {
+  display: grid;
+  gap: 12px;
+  max-width: 720px;
+  margin-bottom: 36px;
+}
+
+.title {
+  font-size: clamp(1.85rem, 4.2vw, 2.7rem);
+}
+
+.intro {
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+@media (min-width: 1024px) {
+  .section { padding-block: 104px; }
+  .header { margin-bottom: 52px; }
+}

@@ -5,6 +5,7 @@ import { SiteFooter } from "@/components/SiteFooter";
 import { SiteHeader } from "@/components/SiteHeader";
 import { themeInitScript } from "@/components/ThemeToggle";
 import { profile } from "@/content/profile";
+import { ogImage } from "@/lib/seo";
 import { personJsonLd } from "@/lib/structured-data";
 import { siteUrl } from "@/lib/site";
 import "./globals.css";
@@ -44,8 +45,9 @@ export const metadata: Metadata = {
     siteName: profile.name,
     locale: "en_GB",
     url: "./",
+    images: [ogImage],
   },
-  twitter: { card: "summary_large_image", title, description },
+  twitter: { card: "summary_large_image", title, description, images: [ogImage.url] },
   robots: { index: true, follow: true },
   formatDetection: { telephone: false },
 };

@@ -1,11 +1,11 @@
 import { ImageResponse } from "next/og";
 import { profile } from "@/content/profile";
 import { publications } from "@/lib/publications";
+import { ogImage } from "@/lib/seo";
 
+// Emitted at build time as out/og.png. A real .png file (rather than Next's
+// extensionless opengraph-image route) gets the right MIME type on GitHub Pages.
 export const dynamic = "force-static";
-export const alt = `${profile.name}, computational chemistry researcher, University of Chittagong`;
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
 
 /** Pointy-top hexagon outline centred at (cx, cy). */
 function hex(cx: number, cy: number, s: number) {
@@ -14,7 +14,7 @@ function hex(cx: number, cy: number, s: number) {
 }
 
 // Link previews in WhatsApp/Messenger use this 1200×630 card.
-export default function OpenGraphImage() {
+export function GET() {
   const s = 56;
   const w = Math.sqrt(3) * s;
   const cells: string[] = [];
@@ -49,12 +49,12 @@ export default function OpenGraphImage() {
           </div>
           <div style={{ display: "flex", fontSize: 84, lineHeight: 1.05, marginTop: 20 }}>{profile.name}</div>
           <div style={{ display: "flex", fontSize: 34, lineHeight: 1.35, marginTop: 24, color: "#dfe7f2" }}>{profile.tagline}</div>
-          <div style={{ display: "flex", fontSize: 24, marginTop: 36, color: "#b4c1d4", fontFamily: "sans-serif" }}>
+          <div style={{ display: "flex", fontSize: 21, marginTop: 36, color: "#b4c1d4", fontFamily: "sans-serif" }}>
             {`${publications.length} publications · Drug design · Antimicrobials · Solar materials`}
           </div>
         </div>
       </div>
     ),
-    size,
+    { width: ogImage.width, height: ogImage.height },
   );
 }

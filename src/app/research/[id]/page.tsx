@@ -9,6 +9,7 @@ import { RichTitle } from "@/components/RichTitle";
 import { featuredStats, researchAreas } from "@/content/research";
 import { formatApa } from "@/lib/citation";
 import { doiUrl, getPublication, isFirstAuthor, publications, sourceLine, themeSlug } from "@/lib/publications";
+import { ogImage } from "@/lib/seo";
 import { articleJsonLd } from "@/lib/structured-data";
 import styles from "./page.module.css";
 
@@ -26,8 +27,9 @@ export async function generateMetadata({ params }: { params: Promise<Params> }):
   return {
     title: pub.title,
     description: pub.summary,
-    alternates: { canonical: `./` },
-    openGraph: { type: "article", title: pub.title, description: pub.summary, url: "./" },
+    alternates: { canonical: `/research/${pub.id}/` },
+    // Page-level openGraph replaces the layout's, so the shared image is repeated here.
+    openGraph: { type: "article", title: pub.title, description: pub.summary, url: `/research/${pub.id}/`, images: [ogImage] },
   };
 }
 

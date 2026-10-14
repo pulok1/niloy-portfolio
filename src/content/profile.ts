@@ -28,6 +28,7 @@ export const profile = {
   institution: "University of Chittagong",
   country: "Bangladesh",
   affiliation: person.affiliation,
+  lab: person.lab,
 
   /** Path under public/, e.g. "/images/niloy.webp" (square, ≥ 480 px). */
   photo: todo("{{PHOTO}}", "Headshot photo", "/images/niloy-bhattacharjee.webp"),
@@ -44,14 +45,15 @@ export const profile = {
   },
 
   email: todo("{{EMAIL}}", "Email address"),
-  linkedin: todo("{{LINKEDIN}}", "LinkedIn profile URL"),
+  linkedin: todo("{{LINKEDIN}}", "LinkedIn profile URL", person.linkedIn ?? null),
   googleScholar: todo("{{GOOGLE_SCHOLAR}}", "Google Scholar profile URL"),
-  researchGate: todo("{{RESEARCHGATE}}", "ResearchGate profile URL", "https://www.researchgate.net/profile/Niloy-Bhattacharjee-4"),
+  researchGate: todo("{{RESEARCHGATE}}", "ResearchGate profile URL", person.researchGate ?? null),
 
   /**
    * Copy these by hand from the Scopus author page. Do NOT use OpenAlex: it has
    * merged this ORCID with a different researcher of the same name.
-   * Hidden until filled.
+   * Hidden until filled. Until Scopus citations are filled in, the metrics strip
+   * shows the hand-copied ResearchGate counters from publications.json (person.stats).
    */
   hIndex: todo<number>("{{H_INDEX}}", "h-index (Scopus)"),
   citations: todo<number>("{{CITATIONS}}", "Citations (Scopus)"),
@@ -60,9 +62,9 @@ export const profile = {
   collaboratingCountries: ["Japan", "Malaysia", "USA"],
 
   about: [
-    "Niloy Bhattacharjee is a chemistry researcher in the Department of Chemistry at the University of Chittagong, Bangladesh. He found his way into research early, as an undergraduate during his BSc in Chemistry, and has kept at it ever since.",
+    "Niloy Bhattacharjee is a chemistry researcher in the Department of Chemistry at the University of Chittagong, Bangladesh, working in the Lab of Carbohydrate and Nucleoside Chemistry (LCNC). He found his way into research early, as an undergraduate during his BSc in Chemistry, and published his first paper before graduating.",
     "He went on to an MSc in Chemistry at the same university and now works where computation meets chemistry: using density functional theory, molecular docking, molecular dynamics, and free-energy and ADMET analysis to work out which molecules are worth making, and why.",
-    "He points those tools at two problems: safer anti-inflammatory drug candidates and new sugar-based antimicrobials on one side, and lead-free perovskite absorbers for solar cells on the other. Alongside the modelling he has hands-on synthesis experience at the bench, and he works with collaborators in Japan, Malaysia and the USA.",
+    "He points those tools at two kinds of problem. In medicine: safer anti-inflammatory candidates, and sugar-based molecules aimed at bacteria, fungi and viral enzymes from dengue virus and SARS-CoV-2. In clean energy: lead-free perovskite absorbers and new dyes for solar cells. Alongside the modelling he has hands-on synthesis experience at the bench, and he works with collaborators in Japan, Malaysia and the USA.",
   ],
 
   education: [

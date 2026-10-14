@@ -23,9 +23,15 @@ export function About() {
                 {profile.institution}, {profile.country}
               </dd>
             </div>
+            {profile.lab && (
+              <div>
+                <dt>Research group</dt>
+                <dd>{profile.lab}</dd>
+              </div>
+            )}
             <div>
               <dt>Focus</dt>
-              <dd>Computational chemistry for drug design and clean-energy materials</dd>
+              <dd>Computational chemistry for drug design, anti-infectives and clean-energy materials</dd>
             </div>
             <div>
               <dt>Collaborations</dt>

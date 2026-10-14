@@ -6,6 +6,7 @@ import { Hero } from "@/components/Hero";
 import { Methods } from "@/components/Methods";
 import { MetricsStrip } from "@/components/MetricsStrip";
 import { Publications } from "@/components/Publications";
+import { Recognition } from "@/components/Recognition";
 import { ResearchAreas } from "@/components/ResearchAreas";
 import { Section } from "@/components/Section";
 
@@ -19,7 +20,7 @@ export default function HomePage() {
         id="research"
         eyebrow="Research"
         title="Better medicines, cleaner energy"
-        intro="Computational chemistry (density functional theory, molecular docking, molecular dynamics, and free-energy and ADMET analysis) applied to drug design and to materials for solar cells."
+        intro="Computational chemistry (density functional theory, molecular docking, molecular dynamics, and free-energy and ADMET analysis) applied to safer medicines, sugar-based anti-infectives and materials for solar cells."
         tone="alt"
       >
         <ResearchAreas />
@@ -44,6 +45,7 @@ export default function HomePage() {
       </Section>
       <Section id="education" eyebrow="Education" title="Academic background">
         <Education />
+        <Recognition />
       </Section>
       <Section id="contact" eyebrow="Contact" title="Get in touch" intro="For collaborations, questions about the research, or anything else." tone="alt">
         <Contact />

@@ -15,8 +15,8 @@ export function Avatar() {
           <Image
             src={asset(photo.value)}
             alt={`Portrait of ${profile.name}`}
-            width={480}
-            height={480}
+            width={560}
+            height={647}
             priority
             sizes="(min-width: 1024px) 320px, 200px"
             className={styles.avatarImg}

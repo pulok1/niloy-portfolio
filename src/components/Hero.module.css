@@ -155,7 +155,7 @@
   height: 100%;
   clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
 }
-.avatarImg { object-fit: cover; }
+.avatarImg { object-fit: cover; object-position: 50% 0; }
 
 .initials {
   display: grid;

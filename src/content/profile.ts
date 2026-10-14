@@ -30,7 +30,7 @@ export const profile = {
   affiliation: person.affiliation,
 
   /** Path under public/, e.g. "/images/niloy.webp" (square, ≥ 480 px). */
-  photo: todo("{{PHOTO}}", "Headshot photo"),
+  photo: todo("{{PHOTO}}", "Headshot photo", "/images/niloy-bhattacharjee.webp"),
   /** Path under public/, e.g. "/cv/niloy-bhattacharjee-cv.pdf". Optional: hidden until set. */
   cv: todo("{{CV_PDF}}", "CV (PDF)"),
 

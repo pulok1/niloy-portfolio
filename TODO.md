@@ -17,7 +17,7 @@ Files such as the photo and CV go in `public/`, and the value is their path (e.g
 
 | Token | What to provide | Notes |
 | --- | --- | --- |
-| `{{PHOTO}}` | Headshot, e.g. `public/images/niloy.webp` → `"/images/niloy.webp"` | Square, at least 480×480 px, WebP or JPEG under ~100 KB. Until it is set, the hero shows an "NB" initials avatar. |
+| ~~`{{PHOTO}}`~~ | ✅ Filled: `public/images/niloy-bhattacharjee.webp` | 560×647 WebP, 18 KB, cropped for the hexagon frame. |
 | ~~`{{BSC_YEARS}}`~~ | ✅ Filled: `"2020 – 2025"` | Education timeline |
 | `{{BSC_RESULT}}` | e.g. CGPA / class | Education timeline |
 | ~~`{{MSC_YEARS}}`~~ | ✅ Filled: `"2025 – 2026"` | Education timeline |

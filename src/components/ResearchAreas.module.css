@@ -1,0 +1,79 @@
+.grid {
+  display: grid;
+  gap: 16px;
+  list-style: none;
+  margin: 0 0 56px;
+  padding: 0;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px;
+  transition: border-color 0.25s var(--ease), box-shadow 0.25s var(--ease), transform 0.25s var(--ease);
+}
+.card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .card:hover { transform: translateY(-2px); }
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 6px;
+  border-radius: 18px;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.title { font-size: 1.45rem; }
+
+.question {
+  font-family: var(--font-serif), Georgia, serif;
+  font-style: italic;
+  color: var(--accent);
+}
+
+.body {
+  color: var(--ink-soft);
+  font-size: 0.97rem;
+  flex: 1;
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  padding-block: 6px;
+  font-weight: 600;
+  font-size: 0.93rem;
+  text-decoration: none;
+}
+.link svg { transition: transform 0.2s var(--ease); }
+.link:hover svg { transform: translateX(3px); }
+/* Make the whole card clickable while keeping a single focusable link. */
+.link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+@media (min-width: 768px) {
+  .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+  .card { padding: 28px; }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  .grid { grid-template-columns: 1fr; }
+  .card { display: grid; grid-template-columns: auto 1fr; column-gap: 20px; }
+  .card > :not(.icon) { grid-column: 2; }
+  .icon { grid-row: span 4; }
+}

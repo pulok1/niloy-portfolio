@@ -76,7 +76,7 @@ export function SiteHeader({ name, initials }: { name: string; initials: string 
   return (
     <header className={styles.header}>
       <div className={`container ${styles.bar}`}>
-        <Link href="/" className={styles.brand} aria-label={`${name}, home`}>
+        <Link href="/" className={styles.brand}>
           <span className={styles.mark} aria-hidden="true">
             {initials}
           </span>

@@ -32,12 +32,16 @@ npm run dev        # http://localhost:3000
 Edit `publications.json`. Each entry is validated against a zod schema ([`src/lib/schema.ts`](src/lib/schema.ts)), so a typo fails the build with a clear message instead of shipping a broken page.
 
 - `id`: URL slug for the paper page (`/research/<id>/`). Use lowercase letters, digits and dashes.
-- `titleHtml` *(optional)*: the title with `<sub>`, `<sup>` or `<i>` for formulas, e.g. `K<sub>2</sub>LiGa(Cl/Br)<sub>6</sub>`. Other tags are stripped; no raw HTML reaches the page.
+- `type`: `"Journal article"` (needs `journal`) or `"Book chapter"` (needs `bookTitle`). `month` (`"Jan"`…`"Dec"`) refines the newest-first sort and is shown next to the year.
+- `doi` is required and must be a real DOI. If one is missing, find it on Crossref or the publisher's page; don't put a placeholder there. `researchGateUrl` *(optional)* adds a ResearchGate link.
+- `titleHtml` *(optional)*: the title with `<sub>`, `<sup>` or `<i>` for formulas and species names, e.g. `K<sub>2</sub>LiGa(Cl/Br)<sub>6</sub>` or `<i>Escherichia coli</i>`. Other tags are stripped; no raw HTML reaches the page.
 - `featured: true` gives the paper a large card. Its position comes from `featuredOrder` in [`src/content/research.ts`](src/content/research.ts). Optional headline numbers go in `featuredStats`; quote them from the paper's own highlights.
-- `theme` must match one of the `researchAreas` themes, or the paper has no research card. A unit test checks this.
+- `theme` must be listed in exactly one research area's `themes` in `src/content/research.ts`. A unit test checks this. The publication filter chips are the themes; each area card selects all of its themes at once.
 - `summary` should be plain language and must not be copied from the abstract.
-- An author entry containing `VERIFY` (or starting with `et al.`) marks an incomplete list. The site shows "et al." plus a VERIFY badge.
-- Every value in `methods` must appear in `methodGroups` (also enforced by a test).
+- An author entry containing `VERIFY` marks a gap: in the middle it shows as "…" (and ". . ." in APA), at the end as "et al.". Either way, a VERIFY badge is shown. A method containing `VERIFY` shows as a badge on the paper page and is left out of the Methods counts.
+- Every confirmed value in `methods` must appear in some `match` list in `methodGroups` (also enforced by a test).
+
+Top-level `awards` and `courses` appear under Education. A `"TODO: …"` value (e.g. an unconfirmed award year) shows as a TODO badge. `person.stats` holds hand-copied ResearchGate counters (with a `source` note) for the metrics strip; Scopus citations in `profile.ts` take priority once filled in.
 
 His name is bolded automatically wherever it matches `person.name`. The publication count, journal count and first-author count in the metrics strip are all computed from the JSON.
 
@@ -81,8 +85,8 @@ scripts/                     Link check, Crossref review, screenshots
 
 ## Verified (October 2026)
 
-- `npm run build`: passes with no type errors. All 3 paper pages are prerendered.
-- 15 unit tests and ESLint pass.
+- `npm run build`: passes with no type errors. All 7 publication pages are prerendered.
+- 20 unit tests and ESLint pass.
 - Screenshots at 375, 768 and 1440 px in light and dark mode show no horizontal overflow and no console errors.
 - Lighthouse (mobile, served with gzip as on Pages/Vercel): Performance 93–97, Accessibility 100, Best Practices 100, SEO 100, CLS 0.
-- All three DOIs are registered and resolve (`npm run check:links`).
+- All seven DOIs are registered and resolve (`npm run check:links`), and `npm run check:crossref` reports every paper matching Crossref.

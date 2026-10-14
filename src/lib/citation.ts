@@ -1,5 +1,5 @@
 import { richTextToPlain } from "./rich-text";
-import { doiUrl, hasIncompleteAuthors, namedAuthors, type Publication } from "./publications";
+import { doiUrl, hasIncompleteAuthors, namedAuthors, type Publication } from "./publication-helpers";
 
 /** "Sarkar M.A. Kawsar" → "Kawsar, S. M. A.";  "Md. Atikur Rahman" → "Rahman, M. A." */
 export function apaName(fullName: string): string {

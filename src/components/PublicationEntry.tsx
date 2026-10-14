@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { formatApa } from "@/lib/citation";
-import { doiUrl, isFirstAuthor, sourceLine, type Publication } from "@/lib/publications";
+import { doiUrl, isFirstAuthor, sourceLine, type Publication } from "@/lib/publication-helpers";
 import { AuthorList } from "./AuthorList";
 import { CopyCitationButton } from "./CopyCitationButton";
 import { ExternalLink, Unlock } from "./Icons";

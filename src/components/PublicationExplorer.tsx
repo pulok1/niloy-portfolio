@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
-import { themeSlug, type Publication } from "@/lib/publications";
+import { themeSlug, type Publication } from "@/lib/publication-helpers";
 import { PublicationEntry } from "./PublicationEntry";
 import styles from "./Publications.module.css";
 

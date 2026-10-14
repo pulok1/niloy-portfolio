@@ -1,5 +1,5 @@
 import { parseRichText } from "@/lib/rich-text";
-import type { Publication } from "@/lib/publications";
+import type { Publication } from "@/lib/schema";
 
 /** Keep stereo-descriptor prefixes such as "α-D-mannopyranoside" from breaking at a hyphen. */
 const NO_BREAK = /([αβ]-[DL]-[\p{L}]+)/u;

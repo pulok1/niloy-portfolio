@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { isAuthorNote, isSelf, type Publication } from "@/lib/publications";
+import { isAuthorNote, isSelf, type Publication } from "@/lib/publication-helpers";
 import { TodoBadge } from "./Placeholder";
 
 /** Author list with his name in bold. Incomplete lists show "et al." plus a VERIFY marker. */

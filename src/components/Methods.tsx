@@ -9,7 +9,7 @@ export function Methods() {
     <>
       <div className={styles.grid}>
         {methodGroups.map((group) => {
-          const items = group.items.filter((i) => i.match !== null || !hidePlaceholders);
+          const items = group.items.filter((i) => i.match.length > 0 || !hidePlaceholders);
           if (items.length === 0) return null;
           return (
             <section key={group.title} className={`card ${styles.group}`} aria-labelledby={`methods-${themeSlug(group.title)}`}>
@@ -18,14 +18,15 @@ export function Methods() {
               </h3>
               <ul className={styles.items}>
                 {items.map((item) => {
-                  const count = item.match ? publications.filter((p) => p.methods.includes(item.match!)).length : 0;
+                  const confirmed = item.match.length > 0;
+                  const count = publications.filter((p) => item.match.some((m) => p.methods.includes(m))).length;
                   return (
-                    <li key={item.label} className={`${styles.item} ${item.match ? "" : styles.unconfirmed}`}>
+                    <li key={item.label} className={`${styles.item} ${confirmed ? "" : styles.unconfirmed}`}>
                       <span className={styles.name}>
                         {item.abbr && <abbr title={item.label}>{item.abbr}</abbr>}
                         <span className={item.abbr ? styles.full : undefined}>{item.label}</span>
                       </span>
-                      {item.match ? (
+                      {confirmed ? (
                         <span className={styles.count}>
                           {count} paper{count === 1 ? "" : "s"}
                         </span>

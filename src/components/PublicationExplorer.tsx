@@ -7,11 +7,14 @@ import styles from "./Publications.module.css";
 
 type Props = { publications: Publication[]; themes: string[] };
 
-/** Filter chips + list. The active theme lives in ?theme= so research cards can deep-link to it. */
+/**
+ * Filter chips + list. Selected themes live in ?theme=a,b so research-area
+ * cards can deep-link to a group of themes. Chips toggle; "All" clears.
+ */
 export function PublicationExplorer({ publications, themes }: Props) {
   const params = useSearchParams();
-  const requested = params.get("theme");
-  const active = themes.find((t) => themeSlug(t) === requested) ?? null;
+  const requested = new Set((params.get("theme") ?? "").split(",").filter(Boolean));
+  const active = themes.filter((t) => requested.has(themeSlug(t)));
   return <PublicationListView publications={publications} themes={themes} active={active} interactive />;
 }
 
@@ -20,41 +23,52 @@ export function PublicationListView({
   themes,
   active,
   interactive = false,
-}: Props & { active: string | null; interactive?: boolean }) {
-  const shown = active ? publications.filter((p) => p.theme === active) : publications;
+}: Props & { active: string[]; interactive?: boolean }) {
+  const shown = active.length ? publications.filter((p) => active.includes(p.theme)) : publications;
 
-  const select = (theme: string | null) => {
+  const setActive = (next: string[]) => {
     const url = new URL(window.location.href);
-    if (theme) url.searchParams.set("theme", themeSlug(theme));
+    if (next.length) url.searchParams.set("theme", next.map(themeSlug).join(","));
     else url.searchParams.delete("theme");
     // Next.js syncs useSearchParams with native history updates; no scroll, no reload.
-    window.history.replaceState(null, "", `${url.pathname}${url.search}#publications`);
+    window.history.replaceState(null, "", `${url.pathname}${url.search.replace(/%2C/g, ",")}#publications`);
   };
+  const toggle = (theme: string) =>
+    setActive(active.includes(theme) ? active.filter((t) => t !== theme) : [...active, theme]);
 
-  const options: { label: string; value: string | null; count: number }[] = [
-    { label: "All", value: null, count: publications.length },
-    ...themes.map((t) => ({ label: t, value: t, count: publications.filter((p) => p.theme === t).length })),
-  ];
+  const count = (theme: string) => publications.filter((p) => p.theme === theme).length;
 
   return (
     <>
       <div className={styles.filters} role="group" aria-label="Filter publications by theme">
-        {options.map((o) => (
+        <button
+          type="button"
+          className={styles.filter}
+          aria-pressed={active.length === 0}
+          disabled={!interactive}
+          onClick={() => setActive([])}
+        >
+          All
+          <span className={styles.count}>{publications.length}</span>
+        </button>
+        {themes.map((t) => (
           <button
-            key={o.label}
+            key={t}
             type="button"
             className={styles.filter}
-            aria-pressed={active === o.value}
+            aria-pressed={active.includes(t)}
             disabled={!interactive}
-            onClick={() => select(o.value)}
+            onClick={() => toggle(t)}
           >
-            {o.label}
-            <span className={styles.count}>{o.count}</span>
+            {t}
+            <span className={styles.count}>{count(t)}</span>
           </button>
         ))}
       </div>
       <p className="visually-hidden" role="status">
-        {interactive ? `Showing ${shown.length} of ${publications.length} publications${active ? ` on ${active}` : ""}` : ""}
+        {interactive
+          ? `Showing ${shown.length} of ${publications.length} publications${active.length ? `: ${active.join(", ")}` : ""}`
+          : ""}
       </p>
       <ol className={styles.list}>
         {shown.map((p) => (

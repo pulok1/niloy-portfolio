@@ -15,7 +15,7 @@ export function ResearchAreas() {
     <ul className={styles.grid}>
       {researchAreas.map((area) => {
         const Icon = icons[area.icon];
-        const count = publications.filter((p) => p.theme === area.theme).length;
+        const count = publications.filter((p) => area.themes.includes(p.theme)).length;
         const headingId = `area-${area.id}`;
         return (
           <li key={area.id} className={`card ${styles.card}`}>
@@ -27,7 +27,7 @@ export function ResearchAreas() {
             </h3>
             <p className={styles.question}>{area.question}</p>
             <p className={styles.body}>{area.description}</p>
-            <Link href={`/?theme=${themeSlug(area.theme)}#publications`} className={styles.link}>
+            <Link href={`/?theme=${area.themes.map(themeSlug).join(",")}#publications`} className={styles.link}>
               {count} related paper{count === 1 ? "" : "s"}
               <span className="visually-hidden"> on {area.title.toLowerCase()}</span>
               <ArrowRight width={16} height={16} />

@@ -46,7 +46,7 @@ export const profile = {
   email: todo("{{EMAIL}}", "Email address"),
   linkedin: todo("{{LINKEDIN}}", "LinkedIn profile URL"),
   googleScholar: todo("{{GOOGLE_SCHOLAR}}", "Google Scholar profile URL"),
-  researchGate: todo("{{RESEARCHGATE}}", "ResearchGate profile URL"),
+  researchGate: todo("{{RESEARCHGATE}}", "ResearchGate profile URL", "https://www.researchgate.net/profile/Niloy-Bhattacharjee-4"),
 
   /**
    * Copy these by hand from the Scopus author page. Do NOT use OpenAlex: it has

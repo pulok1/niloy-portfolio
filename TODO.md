@@ -27,7 +27,7 @@ Files such as the photo and CV go in `public/`, and the value is their path (e.g
 | `{{EMAIL}}` | Email address | Contact section and JSON-LD |
 | `{{LINKEDIN}}` | Full profile URL | Contact section and JSON-LD `sameAs` |
 | `{{GOOGLE_SCHOLAR}}` | Full profile URL | Contact section and JSON-LD `sameAs` |
-| `{{RESEARCHGATE}}` | Full profile URL | Contact section and JSON-LD `sameAs` |
+| ~~`{{RESEARCHGATE}}`~~ | ✅ Filled: https://www.researchgate.net/profile/Niloy-Bhattacharjee-4 | Contact section and JSON-LD `sameAs` |
 | `{{CV_PDF}}` *(optional)* | e.g. `public/cv/niloy-bhattacharjee-cv.pdf` → `"/cv/niloy-bhattacharjee-cv.pdf"` | Hidden until set, then a "Download CV" button appears under Contact. |
 | `{{H_INDEX}}` *(optional)* | Number, copied by hand from the [Scopus author page](https://www.scopus.com/authid/detail.uri?authorId=59321448600) | Hidden until set. **Do not take it from OpenAlex**, which has merged his ORCID with a different Niloy Bhattacharjee (Jadavpur University). |
 | `{{CITATIONS}}` *(optional)* | Number, from Scopus as above | Hidden until set. Same OpenAlex warning. |

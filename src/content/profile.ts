@@ -79,7 +79,7 @@ export const profile = {
     {
       degree: "BSc in Chemistry",
       institution: "University of Chittagong",
-      years: todo("{{BSC_YEARS}}", "BSc years"),
+      years: todo("{{BSC_YEARS}}", "BSc years", "2020 – 2025"),
       result: todo("{{BSC_RESULT}}", "BSc result"),
       details: [],
       note: {
